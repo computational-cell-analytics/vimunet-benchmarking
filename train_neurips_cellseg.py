@@ -13,9 +13,11 @@ def preprocess_neurips_cellseg():
 def train_umamba(args):
     if args.for_all_encoder:
         # train 2d "U-Mamba-Enc" model
+        #     - details: uses the mamba layers in the entire decoder
         cmd = "nnUNetv2_train 703 2d all -tr nnUNetTrainerUMambaEnc --c"
     else:
         # train 2d "U-Mamba-Bot" model
+        #     - details: uses the mamba layer only in the bottleneck - b/w the encoder and decoder junction
         cmd = "nnUNetv2_train 703 2d all -tr nnUNetTrainerUMambaBot --c"
 
     os.system(cmd)
