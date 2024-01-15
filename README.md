@@ -1,5 +1,5 @@
 # UMamba-Experiments
-Experiments on "U-Mamba: Enhancing Long-range Dependency for Biomedical Image Segmentation"
+Experiments on "[U-Mamba: Enhancing Long-range Dependency for Biomedical Image Segmentation](https://github.com/bowang-lab/U-Mamba)"
 
 Installation:
 1. `mamba env create -n umamba python=3.10 -y`
