@@ -28,6 +28,11 @@ def preprocess_neurips_cellseg():
 
 
 def train_nnunetv2(args):
+    _have_splits = os.path.exists(
+        os.path.join(NNUNET_PATH, "nnUNet_preprocessed", "Dataset703_NeurIPSCell", "splits_final.json")
+    )
+    assert _have_splits, "You need to create the splits yourself. See `convert_neurips_cellseg` for details."
+
     # train 2d nnUNet
     gpus = torch.cuda.device_count()
     cmd = f"nnUNet_compile=T nnUNet_n_proc_DA=8 nnUNetv2_train 703 2d {args.fold} -num_gpus {gpus} --c"
