@@ -21,7 +21,7 @@ def write_batch_script(out_path, for_all_encoder, total_training_folds=5):
 #SBATCH --job-name=umamba-neurips-cellseg
 
 source activate um2
-python train_neurips_cellseg.py --train --fold {i} """
+python train_umamba_neurips_cellseg.py --train --fold {i} """
 
         _op = out_path[:-3] + f"_{i}.sh"
 
