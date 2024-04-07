@@ -9,7 +9,6 @@ import numpy as np
 import imageio.v3 as imageio
 from skimage.segmentation import find_boundaries
 
-TRG_ROOT = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"
 SRC_ROOT = "/scratch/usr/nimanwai/data/neurips-cell-seg/umamba/Dataset703_NeurIPSCell"
 # data comes from: https://drive.google.com/drive/folders/18QSSiABS8H3qtx8SZA6RQb3aH1nbc3iF
 
@@ -101,13 +100,16 @@ def _get_split_file(trg_dir):
 
 
 def main():
-    # convert_inputs("train", SRC_ROOT, TRG_ROOT)
-    # convert_inputs("val", SRC_ROOT, TRG_ROOT)
+    # trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
+    trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data/"   # for U-Mamba
 
-    # _update_dataset_file(SRC_ROOT, TRG_ROOT)
-    # _sanity_check_for_dataset_file(TRG_ROOT)
+    # convert_inputs("train", SRC_ROOT, trg_root)
+    # convert_inputs("val", SRC_ROOT, trg_root)
 
-    _get_split_file(TRG_ROOT)
+    # _update_dataset_file(SRC_ROOT, trg_root)
+    # _sanity_check_for_dataset_file(trg_root)
+
+    _get_split_file(trg_root)
 
 
 if __name__ == "__main__":

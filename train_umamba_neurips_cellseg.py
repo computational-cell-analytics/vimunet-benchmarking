@@ -14,7 +14,7 @@ def train_umamba(args):
     if args.for_all_encoder:
         # train 2d "U-Mamba-Enc" model
         #     - details: uses the mamba layers in the entire decoder
-        cmd = f"nnUNetv2_train 703 2d {args.fold} -tr nnUNetTrainerUMambaEnc --c"
+        cmd = f"nnUNetv2_train 703 2d {args.fold} -tr nnUNetTrainerUMambaEncNoAMP --c"  # NOTE: fixes the Nan issue
     else:
         # train 2d "U-Mamba-Bot" model
         #     - details: uses the mamba layer only in the bottleneck - b/w the encoder and decoder junction
