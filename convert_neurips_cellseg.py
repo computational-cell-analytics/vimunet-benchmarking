@@ -99,6 +99,27 @@ def _get_split_file(trg_dir):
         json.dump(all_split_inputs, f, indent=4)
 
 
+def convert_test_images(trg_dir):
+    all_image_paths = sorted(
+        glob("/scratch/projects/nim00007/sam/data/neurips-cell-seg/zenodo/Testing/Public/images/*")
+    )
+    trg_dir = os.path.join(trg_dir, "Testing/Public/imagesTs")
+    os.makedirs(trg_dir, exist_ok=True)
+
+    for image_path in tqdm(all_image_paths):
+        image = imageio.imread(image_path)
+
+        if image.ndim != 3:
+            # one channel image to 3 channel - in channels last format
+            image = np.stack([image]*3, axis=-1)
+
+        assert image.ndim == 3
+        assert image.shape[-1] == 3
+
+        target_path = os.path.join(trg_dir, f"{Path(image_path).stem}_0000.tif")
+        imageio.imwrite(target_path, image)
+
+
 def main():
     # trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
     trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data/"   # for U-Mamba
@@ -109,7 +130,9 @@ def main():
     # _update_dataset_file(SRC_ROOT, trg_root)
     # _sanity_check_for_dataset_file(trg_root)
 
-    _get_split_file(trg_root)
+    # _get_split_file(trg_root)
+
+    convert_test_images(trg_root)
 
 
 if __name__ == "__main__":

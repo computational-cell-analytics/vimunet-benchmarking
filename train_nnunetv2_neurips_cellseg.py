@@ -39,6 +39,16 @@ def train_nnunetv2(args):
     os.system(cmd)
 
 
+def predict_nnunetv2(args):
+    input_dir = os.path.join(NNUNET_PATH, "Testing/Public/imagesTs/")
+    assert os.path.exists(input_dir)
+
+    output_dir = os.path.join(NNUNET_PATH, "Testing/Public/predictionTs/")
+
+    cmd = f"nnUNetv2_predict -i {input_dir} -o {output_dir} -d 703 -c 2d -f {args.fold}"
+    os.system(cmd)
+
+
 def main(args):
     declare_paths(NNUNET_PATH)
 
@@ -48,11 +58,15 @@ def main(args):
     if args.train:
         train_nnunetv2(args)
 
+    if args.predict:
+        predict_nnunetv2(args)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--preprocess", action="store_true")
     parser.add_argument("--train", action="store_true")
+    parser.add_argument("--predict", action="store_true")
     parser.add_argument("--fold", type=str, default="0")
     args = parser.parse_args()
     main(args)
