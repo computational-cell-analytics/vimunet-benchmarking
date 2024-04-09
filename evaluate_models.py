@@ -9,43 +9,58 @@ from torch_em.util.segmentation import watershed_from_components
 
 from elf.evaluation import mean_segmentation_accuracy
 
+from train_nnunetv2 import DATASET_MAPPING
 
-def evaluate_predictions(gt_dir, model_choice):
-    if model_choice == "nnunetv2":
-        root_dir = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/Testing/Public/predictionTs/"
-    else:
-        root_dir = "/scratch/usr/nimanwai/experiments/U-Mamba/data/Testing/Public/predictionTs/"
 
-    all_predictions = sorted(glob(os.path.join(root_dir, "*.tif")))
-    all_gt = sorted(glob(os.path.join(gt_dir, "*.tiff")))
+NNUNET_ROOT = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg"
+UMAMBA_ROOT = "/scratch/usr/nimanwai/experiments/U-Mamba/data"
+
+
+def evaluate_predictions(root_dir, dataset):
+    all_predictions = sorted(glob(os.path.join(root_dir, "predictionTs", "*.tif")))
+    all_gt = sorted(glob(os.path.join(root_dir, "labelsTs", "*.tif")))
 
     assert len(all_predictions) == len(all_gt)
 
-    msa_list = []
+    msa_list, sa50_list, sa75_list = [], [], []
     for prediction_path, gt_path in tqdm(zip(all_predictions, all_gt), total=len(all_gt)):
         gt = imageio.imread(gt_path)
         prediction = imageio.imread(prediction_path)
 
-        fg = (prediction == 1).astype("int")
-        bd = (prediction == 2).astype("int")
+        if dataset == "cremi":
+            bd = prediction
+            instances = watershed_from_components(bd, np.ones_like(bd))
+        else:  # for livecell and neurips-cellseg, we do have foreground
+            fg = (prediction == 1).astype("int")
+            bd = (prediction == 2).astype("int")
+            instances = watershed_from_components(bd, fg)
 
-        instances = watershed_from_components(bd, fg)
-
-        msa = mean_segmentation_accuracy(instances, gt)
+        msa, sa = mean_segmentation_accuracy(instances, gt, return_accuracies=True)
         msa_list.append(msa)
+        sa50_list.append(sa[0])
+        sa75_list.append(sa[5])
 
     msa_score = np.mean(msa_list)
-    print(msa_score)
+    sa50_score = np.mean(sa50_list)
+    sa75_score = np.mean(sa75_list)
+    print(msa_score, sa50_score, sa75_score)
 
 
-def main():
-    gt_dir = "/scratch/projects/nim00007/sam/data/neurips-cell-seg/zenodo/Testing/Public/labels/"
+def main(args):
+    _, dataset_name = DATASET_MAPPING[args.dataset]
 
-    # model_choice = "nnunetv2"
-    model_choice = "umamba"
+    root_dir = os.path.join(
+        NNUNET_ROOT if args.model == "nnunetv2" else UMAMBA_ROOT,
+        "test", dataset_name
+    )
 
-    evaluate_predictions(gt_dir, model_choice)
+    evaluate_predictions(root_dir, args.dataset)
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dataset", type=str, required=True)
+    parser.add_argument("-m", "--model", type=str, required=True)
+    args = parser.parse_args()
+    main(args)

@@ -1,5 +1,7 @@
 import os
+import shutil
 from glob import glob
+from tqdm import tqdm
 from pathlib import Path
 
 import json
@@ -115,16 +117,43 @@ def convert_cremi_for_training(path, trg_root, dataset_name):
         imageio.imwrite(gt_path, gt)
 
 
+def convert_cremi_for_testing(path, trg_dir, dataset_name):
+    # for consistency, I use the already generated splits for testing
+    image_paths = sorted(glob(os.path.join(path, "slices", "raw", "cremi_test*")))
+    gt_paths = sorted(glob(os.path.join(path, "slices", "labels", "cremi_test*")))
+
+    assert len(image_paths) == len(gt_paths)
+
+    # the idea for here is to move the data to a central location,
+    # where we can automate the inference procedure
+    image_dir = os.path.join(trg_dir, "test", dataset_name, "imagesTs")
+    gt_dir = os.path.join(trg_dir, "test", dataset_name, "labelsTs")
+
+    os.makedirs(image_dir, exist_ok=True)
+    os.makedirs(gt_dir, exist_ok=True)
+
+    for image_path, gt_path in tqdm(zip(image_paths, gt_paths), total=len(image_paths)):
+        image_id = Path(image_path).stem
+
+        trg_image_path = os.path.join(image_dir, f"{image_id}_0000.tif")
+        shutil.copy(src=image_path, dst=trg_image_path)
+
+        trg_gt_path = os.path.join(gt_dir, f"{image_id}.tif")
+        shutil.copy(src=gt_path, dst=trg_gt_path)
+
+
 def main():
     path = "/scratch/projects/nim00007/sam/data/cremi"
     dataset_name = "Dataset305_CREMI"
 
     # space to store your top-level nnUNet files
-    # trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
-    trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data"  # for U-Mamba
+    trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
+    # trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data"  # for U-Mamba
 
-    convert_cremi_for_training(path, trg_root, dataset_name)
-    create_json_files(trg_root, dataset_name)
+    # convert_cremi_for_training(path, trg_root, dataset_name)
+    # create_json_files(trg_root, dataset_name)
+
+    convert_cremi_for_testing(path, trg_root, dataset_name)
 
 
 if __name__ == "__main__":
