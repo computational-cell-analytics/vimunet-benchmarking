@@ -1,6 +1,6 @@
 # Benchmarking Experiments for "ViM-UNet: Vision Mamba for Biomedical Segmentation"
 
-Experiments are performed on:
+Experiments performed using external methods to benchmark for [ViM-UNet](https://github.com/constantinpape/torch-em/blob/main/vimunet.md):
 - [nnU-Net](https://github.com/MIC-DKFZ/nnUNet)
 - [U-Mamba](https://github.com/bowang-lab/U-Mamba)
 
@@ -8,7 +8,7 @@ Experiments are performed on:
 
 ### For nnU-Net:
 
-[Here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/installation_instructions.md) is the detailed instruction on how to install nnU-Net on your system.
+[Here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/installation_instructions.md) is the detailed instruction on how to install nnU-Net.
 
 TLDR:
 
@@ -21,6 +21,11 @@ $ pip install -e .
 ```
 
 ### For U-Mamba:
+
+[Here](https://github.com/bowang-lab/U-Mamba?tab=readme-ov-file#installation) is the detailed instruction on how to install U-Mamba.
+
+Below is my piece of installation (dropping it here as some parts needed some attention)
+
 1. Create a new mamba environment:
 ```bash
 $ mamba env create -n umamba python=3.10 -y
