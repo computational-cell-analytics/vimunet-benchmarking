@@ -34,12 +34,12 @@ def predict_umamba(fold, for_all_encoder, dataset_name, dataset_id):
     input_dir = os.path.join(root_dir, "test", dataset_name, "imagesTs")
     assert os.path.exists(input_dir)
 
-    output_dir = os.path.join(root_dir, "test", dataset_name, "predictionTs")
-
     if for_all_encoder:
         trainer = "nnUNetTrainerUMambaEncNoAMP"
     else:
         trainer = "nnUNetTrainerUMambaBot"
+
+    output_dir = os.path.join(root_dir, "test", dataset_name, trainer, "predictionTs")
 
     cmd = f"nnUNetv2_predict -i {input_dir} -o {output_dir} -d {dataset_id} -c 2d -tr {trainer} -f {fold}"
     os.system(cmd)
