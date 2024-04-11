@@ -12,7 +12,7 @@ from elf.evaluation import mean_segmentation_accuracy
 from train_nnunetv2 import DATASET_MAPPING
 
 
-NNUNET_ROOT = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg"
+NNUNET_ROOT = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg"  # too lazy to change the name, apologies
 UMAMBA_ROOT = "/scratch/usr/nimanwai/experiments/U-Mamba/data"
 
 
@@ -38,7 +38,7 @@ def evaluate_predictions(root_dir, dataset, model, for_all_encoder):
         if dataset == "cremi":
             bd = prediction
             instances = watershed_from_components(bd, np.ones_like(bd))
-        else:  # for livecell and neurips-cellseg, we do have foreground
+        else:  # for livecell, we do have foreground
             fg = (prediction == 1).astype("int")
             bd = (prediction == 2).astype("int")
             instances = watershed_from_components(bd, fg)

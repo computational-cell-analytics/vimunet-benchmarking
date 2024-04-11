@@ -7,8 +7,6 @@ from train_nnunetv2 import DATASET_MAPPING
 
 def preprocess_data(dataset_id):
     # let's check the preprocessing first
-    #     - The NeurIPS CellSeg data comes from here
-    #     - https://drive.google.com/drive/folders/18QSSiABS8H3qtx8SZA6RQb3aH1nbc3iF
     cmd = f"nnUNetv2_plan_and_preprocess -d {dataset_id} --verify_dataset_integrity"
     os.system(cmd)
 

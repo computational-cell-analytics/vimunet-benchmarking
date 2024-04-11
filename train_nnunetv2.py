@@ -10,7 +10,6 @@ NNUNET_PATH = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg"  # to
 DATASET_MAPPING = {
     "livecell": [205, "Dataset205_LIVECell"],
     "cremi": [305, "Dataset305_CREMI"],
-    "neurips_cellseg": [703, "Dataset703_NeurIPSCell"]
 }
 
 
@@ -28,8 +27,6 @@ def declare_paths(nnunet_path: str):
 
 def preprocess_data(dataset_id):
     # let's check the preprocessing first
-    #     - The NeurIPS CellSeg data comes from here
-    #     - https://drive.google.com/drive/folders/18QSSiABS8H3qtx8SZA6RQb3aH1nbc3iF
     cmd = f"nnUNetv2_plan_and_preprocess -d {dataset_id} --verify_dataset_integrity"
     os.system(cmd)
 
@@ -38,7 +35,7 @@ def train_nnunetv2(fold, dataset_name, dataset_id):
     _have_splits = os.path.exists(
         os.path.join(NNUNET_PATH, "nnUNet_preprocessed", dataset_name, "splits_final.json")
     )
-    assert _have_splits, "You need to create the splits yourself."
+    assert _have_splits, "The experiment expects you to create the splits yourself."
 
     # train 2d nnUNet
     gpus = torch.cuda.device_count()
