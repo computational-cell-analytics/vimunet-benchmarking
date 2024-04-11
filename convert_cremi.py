@@ -119,8 +119,8 @@ def convert_cremi_for_training(path, trg_root, dataset_name):
 
 def convert_cremi_for_testing(path, trg_dir, dataset_name):
     # for consistency, I use the already generated splits for testing
-    image_paths = sorted(glob(os.path.join(path, "slices", "raw", "cremi_test*")))
-    gt_paths = sorted(glob(os.path.join(path, "slices", "labels", "cremi_test*")))
+    image_paths = sorted(glob(os.path.join(path, "slices_original", "raw", "cremi_test*")))
+    gt_paths = sorted(glob(os.path.join(path, "slices_original", "labels", "cremi_test*")))
 
     assert len(image_paths) == len(gt_paths)
 
