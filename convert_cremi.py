@@ -147,8 +147,8 @@ def main():
     dataset_name = "Dataset305_CREMI"
 
     # space to store your top-level nnUNet files
-    trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
-    # trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data"  # for U-Mamba
+    # trg_root = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg/"  # for nnUNetv2
+    trg_root = "/scratch/usr/nimanwai/experiments/U-Mamba/data"  # for U-Mamba
 
     # convert_cremi_for_training(path, trg_root, dataset_name)
     # create_json_files(trg_root, dataset_name)

@@ -16,8 +16,16 @@ NNUNET_ROOT = "/scratch/usr/nimanwai/experiments/nnunetv2_neurips_cellseg"
 UMAMBA_ROOT = "/scratch/usr/nimanwai/experiments/U-Mamba/data"
 
 
-def evaluate_predictions(root_dir, dataset):
-    all_predictions = sorted(glob(os.path.join(root_dir, "predictionTs", "*.tif")))
+def evaluate_predictions(root_dir, dataset, model, for_all_encoder):
+    if model == "umamba":
+        if for_all_encoder:
+            trainer = "nnUNetTrainerUMambaEncNoAMP"
+        else:
+            trainer = "nnUNetTrainerUMambaBot"
+    else:
+        trainer = ""
+
+    all_predictions = sorted(glob(os.path.join(root_dir, trainer, "predictionTs", "*.tif")))
     all_gt = sorted(glob(os.path.join(root_dir, "labelsTs", "*.tif")))
 
     assert len(all_predictions) == len(all_gt)
@@ -54,7 +62,7 @@ def main(args):
         "test", dataset_name
     )
 
-    evaluate_predictions(root_dir, args.dataset)
+    evaluate_predictions(root_dir, args.dataset, args.model, args.for_all_encoder)
 
 
 if __name__ == "__main__":
@@ -62,5 +70,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dataset", type=str, required=True)
     parser.add_argument("-m", "--model", type=str, required=True)
+    parser.add_argument("--for_all_encoder", action="store_true")
     args = parser.parse_args()
     main(args)
