@@ -1,6 +1,6 @@
 # Benchmarking Experiments for "ViM-UNet: Vision Mamba for Biomedical Segmentation"
 
-Experiments performed using external methods to benchmark for [ViM-UNet](https://github.com/constantinpape/torch-em/blob/main/vimunet.md):
+Experiments performed using reference methods to benchmark for [ViM-UNet](https://github.com/constantinpape/torch-em/blob/main/vimunet.md) described in our [preprint](https://arxiv.org/abs/2404.07705):
 - [nnU-Net](https://github.com/MIC-DKFZ/nnUNet)
 - [U-Mamba](https://github.com/bowang-lab/U-Mamba)
 
@@ -49,3 +49,5 @@ $ git clone https://github.com/bowang-lab/U-Mamba.git
 $ cd U-Mamba/umamba
 $ pip install -e .
 ```
+
+To cite our paper:
