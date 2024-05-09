@@ -1,6 +1,6 @@
 # Benchmarking Experiments for "ViM-UNet: Vision Mamba for Biomedical Segmentation"
 
-Experiments performed using reference methods to benchmark for [ViM-UNet](https://github.com/constantinpape/torch-em/blob/main/vimunet.md) described in our [preprint](https://arxiv.org/abs/2404.07705):
+Experiments performed using reference methods to benchmark for [ViM-UNet](https://github.com/constantinpape/torch-em/blob/main/vimunet.md) described in our [preprint](https://arxiv.org/abs/2404.07705) (accepted to [MIDL 2024 - Short Paper](https://openreview.net/forum?id=PYNwysgFeP)):
 - [nnU-Net](https://github.com/MIC-DKFZ/nnUNet)
 - [U-Mamba](https://github.com/bowang-lab/U-Mamba)
 
