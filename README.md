@@ -51,3 +51,14 @@ $ pip install -e .
 ```
 
 To cite our paper:
+
+```
+@inproceedings{
+  archit2024vimunet,
+  title={ViM-{UN}et: Vision Mamba for Biomedical Segmentation},
+  author={Anwai Archit and Constantin Pape},
+  booktitle={Medical Imaging with Deep Learning},
+  year={2024},
+  url={https://openreview.net/forum?id=PYNwysgFeP}
+}
+```
